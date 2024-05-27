@@ -1,0 +1,6 @@
+@SimpleInterestCalculator_HostAddress = http://localhost:5287
+
+GET {{SimpleInterestCalculator_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
