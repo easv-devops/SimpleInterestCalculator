@@ -19,10 +19,17 @@ steps:
     commands:
       - dotnet build --no-incremental
 
+  - name: debug
+    image: boulundeasv/dotnet-sdk-with-java
+    commands:
+      - echo "SONARSECRET value: $SONARSECRET"
+
+  
   - name: code-analysis-end
     image: boulundeasv/dotnet-sdk-with-java
     commands:
-      - dotnet sonarscanner end /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
+      - dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
+
 
 
 ---
