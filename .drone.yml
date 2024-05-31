@@ -24,13 +24,10 @@ steps:
     commands:
       - echo "SONARSECRET value: $SONARSECRET"
 
-  
   - name: code-analysis-end
     image: boulundeasv/dotnet-sdk-with-java
     commands:
       - dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
-
-
 
 ---
 
