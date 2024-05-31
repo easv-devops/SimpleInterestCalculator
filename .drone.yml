@@ -1,0 +1,143 @@
+kind: pipeline
+type: docker
+name: integration
+
+steps:
+  - name: code-analysis
+    image: boulundeasv/dotnet-sdk-with-java
+    environment:
+      SONARSECRET:
+        from_secret: SonarQubeSecret
+    commands:
+      - dotnet sonarscanner begin 
+        /k:"easv-devops_SimpleInterestCalculator_AY_M0iAeEVvRW2O60Gd2" 
+        /d:sonar.host.url="http://sonar.setgo.dk:9000"  
+        /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
+        dotnet build --no-incremental
+        dotnet sonarscanner end /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
+
+
+kind: pipeline
+type: docker
+name: deliver
+depends_on:
+  - integration
+
+steps:
+  - name: publish api
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DockerUsername
+      password:
+        from_secret: DockerPassword
+      context: api
+      docker-file: api/docker-file-api
+      repo: JulianHesberg/SimpleInterestCalculator-api
+      tags:
+        - staging
+        
+  - name: publish web
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DockerUsername
+      password:
+        from_secret: DockerPassword
+      context: api
+      docker-file: api/docker-file-frontend
+      repo: JulianHesberg/SimpleInterestCalculator-web
+      tags:
+        - staging
+    
+
+  - name: trigger update
+    image: curlimages/curl
+    commands:
+      - "curl --fail -X Get 'http://0.0.0.0:8080/v1/update' -H 'Authorization: Bearer mytoken'"
+      - sleep 15
+    depends_on:
+      - publish api
+      - publish web
+
+  - name: update database
+    image: flyway/flyway
+    commands:
+      - flyway migrate
+      - url=jdbc:mariadb://0.0.0.0:3306/SimpleInterest
+      - user=user
+      - password=password
+      - locations=filesystem:./db/migrations
+    depends_on:
+      - trigger update
+
+  - name: end-to-end tests
+    image: testcafe/testcafe
+    commands:
+      - testcafe chromium:headless api/frontend/test/e2etests.js --disable-native-automation
+    depends_on:
+      - update database
+
+  - name: api tests
+    image: mcr.microsoft.com/dotnet/sdk:6.0
+    commands:
+      - dotnet restore
+      - dotnet build
+      - dotnet test
+
+---
+
+kind: pipeline
+type: docker
+name: deploy
+depends_on:
+  - deliver
+
+steps:
+  - name: release api
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DockerUsername
+      password:
+        from_secret: DockerPassword
+      context: api
+      docker-file: api/docker-file-api
+      repo: JulianHesberg/SimpleInterestCalculator-api
+      tags:
+        - prod
+
+  - name: release web
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: DockerUsername
+      password:
+        from_secret: DockerPassword
+      context: api
+      docker-file: api/docker-file-frontend
+      repo: JulianHesberg/SimpleInterestCalculator-web
+      tags:
+        - prod
+
+  - name: trigger update
+    image: curlimages/curl
+    commands:
+      - "curl --fail -X Get 'http://0.0.0.0:8080/v1/update' -H 'Authorization: Bearer mytoken'"
+      - sleep 15
+    depends_on:
+      - release api
+      - release web
+
+  - name: update database
+    image: flyway/flyway
+    commands:
+      - flyway migrate
+      - url=jdbc:mariadb://0.0.0.0:3306/SimpleInterest
+      - user=user
+      - password=password
+      - locations=filesystem:./db/migrations
+    depends_on:
+      - trigger update
+
+  
