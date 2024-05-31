@@ -12,9 +12,9 @@ steps:
       - dotnet sonarscanner begin 
         /k:"easv-devops_SimpleInterestCalculator_AY_M0iAeEVvRW2O60Gd2" 
         /d:sonar.host.url="http://sonar.setgo.dk:9000"  
-        /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
+        /d:sonar.token="$SONARSECRET"
         dotnet build --no-incremental
-        dotnet sonarscanner end /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
+        dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
 
 
 kind: pipeline
@@ -54,7 +54,7 @@ steps:
   - name: trigger update
     image: curlimages/curl
     commands:
-      - "curl --fail -X Get 'http://0.0.0.0:8080/v1/update' -H 'Authorization: Bearer mytoken'"
+      - "curl --fail -X Get 'http://173.249.33.42:8080/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
       - publish api
@@ -64,7 +64,7 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-      - url=jdbc:mariadb://0.0.0.0:3306/SimpleInterest
+      - url=jdbc:mariadb:/173.249.33.42:3306/SimpleInterest
       - user=user
       - password=password
       - locations=filesystem:./db/migrations
@@ -74,7 +74,7 @@ steps:
   - name: end-to-end tests
     image: testcafe/testcafe
     commands:
-      - testcafe chromium:headless api/frontend/test/e2etests.js --disable-native-automation
+      - testcafe chromium:headless api/frontend/src/test/e2etests.ts --disable-native-automation
     depends_on:
       - update database
 
@@ -123,7 +123,7 @@ steps:
   - name: trigger update
     image: curlimages/curl
     commands:
-      - "curl --fail -X Get 'http://0.0.0.0:8080/v1/update' -H 'Authorization: Bearer mytoken'"
+      - "curl --fail -X Get 'http://173.249.37.187:8080/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
       - release api
@@ -133,7 +133,7 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-      - url=jdbc:mariadb://0.0.0.0:3306/SimpleInterest
+      - url=jdbc:mariadb://173.249.37.187:3306/SimpleInterest
       - user=user
       - password=password
       - locations=filesystem:./db/migrations
