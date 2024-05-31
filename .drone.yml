@@ -54,7 +54,7 @@ steps:
   - name: trigger update
     image: curlimages/curl
     commands:
-      - "curl --fail -X Get 'http://173.249.33.42:8080/v1/update' -H 'Authorization: Bearer mytoken'"
+      - "curl --fail -X GET 'http://173.249.33.42:8080/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
       - publish api
@@ -123,7 +123,7 @@ steps:
   - name: trigger update
     image: curlimages/curl
     commands:
-      - "curl --fail -X Get 'http://173.249.37.187:8080/v1/update' -H 'Authorization: Bearer mytoken'"
+      - "curl --fail -X GET 'http://173.249.37.187:8080/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
       - release api
