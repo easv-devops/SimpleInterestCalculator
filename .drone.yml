@@ -16,6 +16,7 @@ steps:
         dotnet build --no-incremental
         dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
 
+---
 
 kind: pipeline
 type: docker
