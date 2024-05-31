@@ -18,3 +18,34 @@ services:
       - ./db:/flyway/conf
     depends_on:
       - db
+
+  api:
+    image: JulianHesberg/SimpleInterestCalculator-api:staging
+    depends_on:
+      - db
+    ports:
+      - 5001:8080
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  frontend:
+    image: JulianHesberg/SimpleInterestCalculator-frontend:staging
+    depends_on:
+      api
+    ports:
+      - 5002:8080
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+    watchtower:
+      image: containrrr/watchtower
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      command: --debug --http-api-update
+      environment:
+        - WATCHTOWER_HTTP_API_TOKEN=mytoken
+        - WATCHTOWER_LABEL_ENABLE=true
+      labels:
+        - "com.centurylinklabs.watchtower.enable=false"
+      ports:
+        - 8081:8080
