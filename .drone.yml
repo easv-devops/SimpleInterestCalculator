@@ -12,20 +12,10 @@ steps:
       - dotnet sonarscanner begin 
         /k:"easv-devops_SimpleInterestCalculator_AY_M0iAeEVvRW2O60Gd2" 
         /d:sonar.host.url="http://sonar.setgo.dk:9000"  
-        /d:sonar.token="$SONARSECRET"
-
-  - name: build
-    image: boulundeasv/dotnet-sdk-with-java
-    commands:
-      - dotnet build --no-incremental
-
-  - name: code-analysis-end
-    image: boulundeasv/dotnet-sdk-with-java
-    environment:
-      SONARSECRET:
-        from_secret: SonarQubeSecret
-    commands:
-      - dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
+        /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
+        /d:sonar.qualitygate.wait=true
+      - dotnet build
+      - dotnet sonarscanner end /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
 
 ---
 
