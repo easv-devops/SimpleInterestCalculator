@@ -1,0 +1,20 @@
+services:
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: SimpleInterest
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - 3306:3306
+        
+  flyway:
+    image: flyway/flyway
+    command: migrate
+    volumes:
+      - ./db/migration:/flyway/sql
+      - ./db:/flyway/conf
+    depends_on:
+      - db
