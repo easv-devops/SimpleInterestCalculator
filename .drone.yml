@@ -32,8 +32,8 @@ steps:
       password:
         from_secret: DockerPassword
       context: api
-      docker-file: docker-file-api
-      repo: JulianHesberg/SimpleInterestCalculator-api
+      docker-file: Dockerfile
+      repo: julianhesberg/simpleinterestcalculator-api
       tags:
         - staging
         
@@ -44,9 +44,9 @@ steps:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: api
-      docker-file: docker-file-frontend
-      repo: JulianHesberg/SimpleInterestCalculator-web
+      context: api/frontend
+      docker-file: Dockerfile
+      repo: julianhesberg/simpleinterestcalculator-web
       tags:
         - staging
     
@@ -103,7 +103,7 @@ steps:
         from_secret: DockerPassword
       context: api
       docker-file: api/docker-file-api
-      repo: JulianHesberg/SimpleInterestCalculator-api
+      repo: julianhesberg/simpleinterestcalculator-api
       tags:
         - prod
 
@@ -116,7 +116,7 @@ steps:
         from_secret: DockerPassword
       context: api
       docker-file: api/docker-file-frontend
-      repo: JulianHesberg/SimpleInterestCalculator-web
+      repo: julianhesberg/simpleinterestcalculator-web
       tags:
         - prod
 
