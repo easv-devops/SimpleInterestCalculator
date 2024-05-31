@@ -3,7 +3,7 @@ type: docker
 name: integration
 
 steps:
-  - name: code-analysis
+  - name: code-analysis-begin
     image: boulundeasv/dotnet-sdk-with-java
     environment:
       SONARSECRET:
@@ -13,8 +13,17 @@ steps:
         /k:"easv-devops_SimpleInterestCalculator_AY_M0iAeEVvRW2O60Gd2" 
         /d:sonar.host.url="http://sonar.setgo.dk:9000"  
         /d:sonar.token="$SONARSECRET"
-        dotnet build --no-incremental
-        dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
+
+  - name: build
+    image: boulundeasv/dotnet-sdk-with-java
+    commands:
+      - dotnet build --no-incremental
+
+  - name: code-analysis-end
+    image: boulundeasv/dotnet-sdk-with-java
+    commands:
+      - dotnet sonarscanner end /d:sonar.token="$SONARSECRET"
+
 
 ---
 
