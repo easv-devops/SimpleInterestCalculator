@@ -32,7 +32,7 @@ steps:
       password:
         from_secret: DockerPassword
       context: api
-      docker-file: api/docker-file-api
+      docker-file: docker-file-api
       repo: JulianHesberg/SimpleInterestCalculator-api
       tags:
         - staging
@@ -45,7 +45,7 @@ steps:
       password:
         from_secret: DockerPassword
       context: api
-      docker-file: api/docker-file-frontend
+      docker-file: docker-file-frontend
       repo: JulianHesberg/SimpleInterestCalculator-web
       tags:
         - staging
