@@ -51,7 +51,7 @@ steps:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: api/frontend
+      context: ./api/frontend
       docker-file: Dockerfile
       repo: julianhesberg/simpleinterestcalculator-frontend
       tags:
@@ -88,9 +88,9 @@ steps:
   - name: api tests
     image: mcr.microsoft.com/dotnet/sdk:6.0
     commands:
-      - dotnet restore
-      - dotnet build
-      - dotnet test
+      - dotnet restore api/
+      - dotnet build api/
+      - dotnet test api/
 
 ---
 
