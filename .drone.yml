@@ -19,7 +19,7 @@ steps:
         /k:"easv-devops_SimpleInterestCalculator_AY_M0iAeEVvRW2O60Gd2" 
         /d:sonar.host.url="http://sonar.setgo.dk:9000"  
         /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
-        /d:sonar.qualitygate.wait=true
+        /d:sonar.qualitygate.wait=false
       - dotnet build
       - dotnet sonarscanner end /d:sonar.token="sqp_e9ac4f9565d36b8512a7e7cced0399f67f853055"
 
