@@ -20,7 +20,7 @@ services:
       - db
 
   api:
-    image: julianHesberg/simpleinterestcalculator-api:staging
+    image: julianhesberg/simpleinterestcalculator-api:staging
     depends_on:
       - db
     ports:
@@ -29,7 +29,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 
   frontend:
-    image: julianHesberg/simpleinterestcalculator-frontend:staging
+    image: julianhesberg/simpleinterestcalculator-frontend:staging
     depends_on:
       - api
     ports:
