@@ -3,6 +3,12 @@ type: docker
 name: integration
 
 steps:
+  - name: install-node
+    image: boulundeasv/dotnet-sdk-with-java
+    commands:
+      - apt-get update
+      - apt-get install -y nodejs
+      
   - name: code-analysis-begin
     image: boulundeasv/dotnet-sdk-with-java
     environment:
