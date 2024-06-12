@@ -68,9 +68,12 @@ steps:
         - docker stop api_container || true
         - docker rm api_container || true
         - docker run --name api_container -d julianhesberg/simpleinterestcalculator-api:staging
+    depends_on:
+      - publish api
+      - publish web
 
 
-  - name: deploy to server
+  - name: deploy to test
     image: appleboy/drone-ssh
     settings:
       host: 173.249.33.42
@@ -84,6 +87,8 @@ steps:
         - docker run --name api_container -d julianhesberg/simpleinterestcalculator-api:staging
         - docker stop frontend_container && docker rm frontend_container
         - docker run --name frontend_container -d julianhesberg/simpleinterestcalculator-frontend:staging
+    depends_on:
+      - start api container
     when:
       status: [ success ]
 
@@ -93,8 +98,7 @@ steps:
       - "curl --fail -X GET 'http://173.249.33.42:8080/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
-      - publish api
-      - publish web
+      - deploy to test
 
   - name: update database
     image: flyway/flyway
