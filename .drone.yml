@@ -51,8 +51,7 @@ steps:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: ./api/frontend
-      docker-file: Dockerfile
+      docker-file: api/frontend/Dockerfile
       repo: julianhesberg/simpleinterestcalculator-frontend
       tags:
         - staging
