@@ -86,7 +86,7 @@ steps:
       - update database
 
   - name: api tests
-    image: mcr.microsoft.com/dotnet/sdk:6.0
+    image: mcr.microsoft.com/dotnet/sdk:8.0
     commands:
       - dotnet restore api/
       - dotnet build api/
@@ -108,8 +108,7 @@ steps:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: api
-      docker-file: api/docker-file-api
+      docker-file: Dockerfile
       repo: julianhesberg/simpleinterestcalculator-api
       tags:
         - prod
@@ -121,9 +120,9 @@ steps:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: api
-      docker-file: api/docker-file-frontend
-      repo: julianhesberg/simpleinterestcalculator-web
+      context: api/frontend
+      docker-file: Dockerfile
+      repo: julianhesberg/simpleinterestcalculator-frontend
       tags:
         - prod
 
