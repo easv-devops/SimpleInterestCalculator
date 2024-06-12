@@ -31,7 +31,7 @@ services:
   frontend:
     image: julianHesberg/simpleinterestcalculator-frontend:staging
     depends_on:
-      api
+      - api
     ports:
       - 5002:8080
     labels:
