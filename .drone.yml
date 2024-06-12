@@ -55,50 +55,15 @@ steps:
       repo: julianhesberg/simpleinterestcalculator-frontend
       tags:
         - staging
-
-  - name: start api container
-    image: appleboy/drone-ssh
-    settings:
-      host: 173.249.33.42
-      username: root
-      password: JankyJam69
-      port: 22
-      script:
-        - docker pull julianhesberg/simpleinterestcalculator-api:staging
-        - docker stop api_container || true
-        - docker rm api_container || true
-        - docker run --name api_container -d julianhesberg/simpleinterestcalculator-api:staging
-    depends_on:
-      - publish api
-      - publish web
-
-
-  - name: deploy to test
-    image: appleboy/drone-ssh
-    settings:
-      host: 173.249.33.42
-      username: root
-      password: JankyJam69
-      port: 22
-      script:
-        - docker pull julianhesberg/simpleinterestcalculator-api:staging
-        - docker pull julianhesberg/simpleinterestcalculator-frontend:staging
-        - docker stop api_container && docker rm api_container
-        - docker run --name api_container -d julianhesberg/simpleinterestcalculator-api:staging
-        - docker stop frontend_container && docker rm frontend_container
-        - docker run --name frontend_container -d julianhesberg/simpleinterestcalculator-frontend:staging
-    depends_on:
-      - start api container
-    when:
-      status: [ success ]
-
+        
   - name: trigger update
     image: curlimages/curl
     commands:
       - "curl --fail -X GET 'http://173.249.33.42:8080/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
-      - deploy to test
+      - publish web
+      - publish api
 
   - name: update database
     image: flyway/flyway
