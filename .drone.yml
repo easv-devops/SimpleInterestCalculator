@@ -33,7 +33,6 @@ steps:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: api
       docker-file: Dockerfile
       repo: julianhesberg/simpleinterestcalculator-api
       tags:
