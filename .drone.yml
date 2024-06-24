@@ -69,11 +69,10 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-    environment: 
-      - FLYWAY_URL=dbc:mariadb:/173.249.33.42:3306/SimpleInterest
-      - FLYWAY_USER=user
-      - FLYWAY_PASSWORD=password
-      - FLYWAY_LOCATIONS=filesystem:./db/migrations
+      - url=jdbc:mariadb:/173.249.33.42:3306/SimpleInterest
+      - user=user
+      - password=password
+      - locations=filesystem:./db/migrations
     depends_on:
       - trigger update
 
