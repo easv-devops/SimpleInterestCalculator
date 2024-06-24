@@ -5,8 +5,8 @@ services:
     volumes:
       - ./db/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: user
-      POSTGRES_USER: password
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
       POSTGRES_DB: SimpleInterest
     ports:
       - 5432:5432
