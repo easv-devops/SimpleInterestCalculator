@@ -69,13 +69,15 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-      - url=jdbc:postgresql://173.249.33.42:5432/SimpleInterest
-      - user=user
-      - password=password
-      - locations=filesystem:./db
+    environment:
+      - FLYWAY_URL=jdbc:postgresql://173.249.33.42:5432/SimpleInterest
+      - FLYWAY_USER=user
+      - FLYWAY_PASSWORD=password
+      - FLYWAY_LOCATIONS=filesystem:./db
     depends_on:
       - trigger update
-
+  
+  
   - name: end-to-end tests
     image: testcafe/testcafe
     commands:
@@ -137,10 +139,10 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-      - url=jdbc:mariadb://173.249.37.187:3306/SimpleInterest
+      - url=jdbc:postgresql://173.249.37.187:5432/SimpleInterest
       - user=user
       - password=password
-      - locations=filesystem:./db/migrations
+      - locations=filesystem:./db
     depends_on:
       - trigger update
 
