@@ -72,7 +72,7 @@ steps:
       - url=jdbc:mariadb:/173.249.33.42:3306/SimpleInterest
       - user=user
       - password=password
-      - locations=filesystem:./db/migrations
+      - locations=filesystem:./db/sql
     depends_on:
       - trigger update
 
