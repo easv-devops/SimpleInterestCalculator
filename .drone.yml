@@ -69,10 +69,10 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-      - url=jdbc:mariadb:/173.249.33.42:3306/SimpleInterest
+      - url=jdbc:mariadb:/173.249.33.42:5432/SimpleInterest
       - user=user
       - password=password
-      - locations=filesystem:./db/sql
+      - locations=filesystem:./db
     depends_on:
       - trigger update
 

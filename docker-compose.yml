@@ -1,29 +1,24 @@
 services:
   db:
-    image: mariadb:latest
+    image: postgres
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: SimpleInterest
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - 3306:3306
     volumes:
-      - mariadb:/var/lib/mysql
+      - ./db/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: user
+      POSTGRES_USER: password
+      POSTGRES_DB: SimpleInterest
+    ports:
+      - 5432:5432
         
   flyway:
     image: flyway/flyway
+    command: migrate
     volumes:
-      - ./db/sql:/flyway/sql
+      - ./db:/flyway/sql
       - ./db:/flyway/conf
-    environment:
-      - FLYWAY_URL=jdbc:mariadb://173.249.33.42:3306/SimpleInterest
-      - FLYWAY_USER=user
-      - FLYWAY_PASSWORD=password
     depends_on:
       - db
-  
   
   api:
     image: julianhesberg/simpleinterestcalculator-api:staging
