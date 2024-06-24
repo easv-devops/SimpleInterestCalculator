@@ -69,7 +69,7 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-      - url=jdbc:postgresql:/173.249.33.42:5432/SimpleInterest
+      - url=jdbc:postgresql://173.249.33.42:5432/SimpleInterest
       - user=user
       - password=password
       - locations=filesystem:./db
