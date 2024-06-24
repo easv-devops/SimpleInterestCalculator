@@ -3,7 +3,7 @@
 import { Selector } from 'testcafe';
 
 fixture('AppComponent Tests')
-  .page('http://173.249.33.42:4200');
+  .page('https://google.com');
 
 
 test('Calculate Interest Test', async (t) => {
