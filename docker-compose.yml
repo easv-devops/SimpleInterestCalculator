@@ -16,8 +16,9 @@ services:
     image: flyway/flyway
     volumes:
       - ./db/sql:/flyway/sql
+      - ./db:/flyway/conf
     environment:
-      - FLYWAY_URL=jdbc:mariadb://localhost:3306/SimpleInterest
+      - FLYWAY_URL=jdbc:mariadb://173.249.33.42:3306/SimpleInterest
       - FLYWAY_USER=user
       - FLYWAY_PASSWORD=password
     depends_on:
