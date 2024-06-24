@@ -12,13 +12,16 @@ services:
         
   flyway:
     image: flyway/flyway
-    command: migrate
     volumes:
-      - ./db/migration
-      - ./db
+      - ./db/migration:/flyway/sql
+    environment:
+      - FLYWAY_URL=jdbc:mariadb://db:3306/SimpleInterest
+      - FLYWAY_USER=user
+      - FLYWAY_PASSWORD=password
     depends_on:
       - db
-
+  
+  
   api:
     image: julianhesberg/simpleinterestcalculator-api:staging
     depends_on:
