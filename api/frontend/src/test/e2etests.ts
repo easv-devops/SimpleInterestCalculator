@@ -22,6 +22,6 @@ test('Calculate Interest Test', async (t) => {
 //// Assuming there's an element displaying the total interest with ID: 'total-interest'
 //const totalInterestElement = Selector('#latest-entry');
 //await t.expect(totalInterestElement.innerText).eql('Principal: 1000 | Total Interest: 1100'); // Adjust as needed
-  t.expect(true).eql(true);
+  await t.expect(true).eql(true);
 });
 
