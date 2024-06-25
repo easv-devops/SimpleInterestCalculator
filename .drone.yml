@@ -126,7 +126,7 @@ steps:
   - name: trigger update
     image: curlimages/curl
     commands:
-      - "curl --fail -X GET 'http://173.249.33.42:8081/v1/update' -H 'Authorization: Bearer mytoken'"
+      - "curl --fail -X GET 'http://173.249.37.187:8081/v1/update' -H 'Authorization: Bearer mytoken'"
       - sleep 15
     depends_on:
       - release api
@@ -136,7 +136,7 @@ steps:
     image: flyway/flyway
     commands:
       - flyway migrate
-          -url=jdbc:postgresql://173.249.33.42:5432/SimpleInterest
+          -url=jdbc:postgresql://173.249.37.187:5432/SimpleInterest
           -user=user
           -password=password
           -locations=filesystem:./db
