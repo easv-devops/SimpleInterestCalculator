@@ -111,7 +111,7 @@ steps:
       tags:
         - prod
 
-  - name: publish web
+  - name: release web
     image: plugins/docker
     settings:
       username:
