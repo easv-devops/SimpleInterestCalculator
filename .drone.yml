@@ -111,15 +111,14 @@ steps:
       tags:
         - prod
 
-  - name: release web
+  - name: publish web
     image: plugins/docker
     settings:
       username:
         from_secret: DockerUsername
       password:
         from_secret: DockerPassword
-      context: api/frontend
-      docker-file: Dockerfile
+      docker-file: api/frontend/Dockerfile
       repo: julianhesberg/simpleinterestcalculator-frontend
       tags:
         - prod
