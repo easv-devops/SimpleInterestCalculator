@@ -25,7 +25,7 @@ services:
     depends_on:
       - db
     ports:
-      - 5001:8080
+      - 173.249.33.42:5001:8080
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -34,7 +34,7 @@ services:
     depends_on:
       - api
     ports:
-      - 5002:8080
+      - 173.249.33.42:5002:8080
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
